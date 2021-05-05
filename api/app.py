@@ -1,12 +1,18 @@
 from flask import Flask, render_template
 from flask_socketio import SocketIO
+from wumboCoin import wumboCoin
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'fnf&dja^392#dv'
 socketio = SocketIO(app)
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
+def index():
+    return render_template('base.html')
+
+@app.route('/give/<username>', methods=['GET', 'POST'])
 def sessions():
+    
     return render_template('base.html')
 
 def messageReceived(methods=['GET', 'POST']):
