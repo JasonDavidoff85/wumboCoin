@@ -17,38 +17,40 @@ WumboCoin runs as a api using a flask server
 
 ### API Reference
 
-`POST /api/authenticate/`
+
+*`POST /api/authenticate/`
 **Logs user in**
 Takes json object with format
 `{'username': {username}, 'password': {receiver}}`
 
-`POST /api/user/`
+*`POST /api/user/`
 **create user**
 Takes json obj in format:
 `{'username': {username}, 'password': {password}}`
 
 #### The following api calls *require authentication*
 
-`POST /api/addTransaction/`
+*`POST /api/addTransaction/`
 **Add transaction to current block**
 Takes json object in format:
 `{'receiver': {receiver}, 'amount': {amount}}`
 
-`POST /api/importKey/`
+*`POST /api/importKey/`
 **sends key to api server**
 Takes json obj in format:
 `{'pub': {pubKey}, 'pri': {priKey}}`
 
-`GET /api/makeKeys/`
+*`GET /api/makeKeys/`
 **Returns json with pub and pri key**
 Returns obj in format:
 `{'pub': {pubKey}, 'pri': {priKey}}`
 
-`GET /api/block/{block number}`
+*`GET /api/block/{block number}`
 **Returns json of block**
 
-`GET /api/user/{username}`
+*`GET /api/user/{username}`
 **Returns json of public facing info on the user**
+
 
 
 
