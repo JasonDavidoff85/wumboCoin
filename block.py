@@ -1,18 +1,28 @@
 import random
+import json
+import os
+# from wumboCoin import wumboCoin
+
 class Block():
-    def __init__(self, lastBlock):
-        # get info from previous block:
-        #	hash of previous block
-        #	height of next transaction
-        #
-        self.blockNum = lastBlock.blockNum + 1
-        self.prevBlock = lastBlock
-        self.height = lastBlock.height
-        self.prevHeight = lastBlock.height
-        self.blockReward = self.calculateBlockReward()
-        self.maxHeight = 3500 # TODO figure out # transactions to make 1MB block
-        self.ledger = {}
-        self.pOfw = 0
+    def __init__(self, session, file=None):
+        self.data = {}
+        self.session = session
+        if file != None and os.path.exists(file): # block already created
+            with open(file) as f:
+                self.data = json.load(f)
+
+            # get info from previous block:
+            #	hash of previous block
+            #	height of next transaction
+            #
+            self.blockNum = lastBlock.blockNum + 1
+            self.prevBlock = lastBlock
+            self.height = lastBlock.height
+            self.prevHeight = lastBlock.height
+            self.blockReward = self.calculateBlockReward()
+            self.maxHeight = 3500 # TODO figure out # transactions to make 1MB block
+            self.ledger = {}
+            self.pOfw = 0
         
     def calculateBlockReward(self):
         chance = []
@@ -33,29 +43,36 @@ class Block():
 
     def addTransaction(self, transaction, pubKey):
         signature = self.crypto.sign(str(transaction))
-        self.ledger[self.height] = {
+        self.data['transactions'][self.height] = {
             'transaction': transaction,
             'signature': signature,
             'key': pubKey.hex()
         }
         self.height += 1
 
-    # returns dic of block
-    def export(self, username):
-        block = {
-            'header': {
-                'blockID': self.blockNum,
-                'previousBlockHash': self.lastBlock,
-                'username': username,
-                'blockReward': self.blockReward,
-                'proofOfWork': 0
-            },
-            'transactions': self.ledger
+    
+    def createNextBlock(self):
+        newBlock = {}
+        newBlock['header'] = {
+            'blockID': self.data['header']['blockID'] + 1,
+            'creator': self.session.username,
+            'prevBlockHash': "", #TODO <-----------------------+
+            'blockReward': self.calculateBlockReward(),
+            'proofOfWork': 0,
+            'rewardReciever': ""
         }
-        return block
+        newBlock['transactions'] = {}
+
+        os.rename('blockchain/current.wub', 'blockchain/' + self.data['header']['blockID'] + '.wub')
+        with open('blockchain/current.wub', 'w') as f:
+            json.dump(newBlock, f)
+        
+        # either do this if possible
+        self.session.block = self
+
+        # or have callback to change wumboCoin session current block
+        
+
      
     def blockHash():
-        return
-
-    def mineBlock(self):
         return

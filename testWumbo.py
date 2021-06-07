@@ -16,9 +16,10 @@ pubKey = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsXbeJN6YlJEeHJLFgVHsnPNK8G
 genesis = {
     'header': {
         'blockID': 0,
-        'username': "jdavidoff",
+        'creator': "jdavidoff",
         'blockReward': 6,
-        'proofOfWork': 0
+        'proofOfWork': 0,
+        'rewardReciever': "jdavidoff"
     },
     'transactions': {
         0: {

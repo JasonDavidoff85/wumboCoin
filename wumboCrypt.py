@@ -33,8 +33,10 @@ class Crypto:
         hashObj = SHA256.new(data=bytes(data, 'utf-8'))
         return hashObj.hexdigest()
 
-    # takes string of data to be signed
-    # returns signed byte array
+    '''
+    takes string of data to be signed
+    returns signed byte array
+    '''
     def sign(self, data):
         if self.hasKey == False:
             print(self.key, "no key")

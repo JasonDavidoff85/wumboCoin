@@ -15,7 +15,9 @@ from block import Block
 class wumboCoin():
 	def __init__(self):
 		self.crypto = Crypto()
-		
+		# set current block
+		self.block = Block('blockchain/current.wub')
+
 	def authenticate(self, username, password):
 		#use db interface to check username and password
 		return
