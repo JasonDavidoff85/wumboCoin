@@ -10,19 +10,7 @@ class Block():
         if file != None and os.path.exists(file): # block already created
             with open(file) as f:
                 self.data = json.load(f)
-
-            # get info from previous block:
-            #	hash of previous block
-            #	height of next transaction
-            #
-            self.blockNum = lastBlock.blockNum + 1
-            self.prevBlock = lastBlock
-            self.height = lastBlock.height
-            self.prevHeight = lastBlock.height
-            self.blockReward = self.calculateBlockReward()
-            self.maxHeight = 3500 # TODO figure out # transactions to make 1MB block
-            self.ledger = {}
-            self.pOfw = 0
+        self.height = len(self.data['transactions'])
         
     def calculateBlockReward(self):
         chance = []
@@ -42,7 +30,7 @@ class Block():
 
 
     def addTransaction(self, transaction, pubKey):
-        signature = self.crypto.sign(str(transaction))
+        signature = self.session.crypto.sign(self.height + str(transaction))
         self.data['transactions'][self.height] = {
             'transaction': transaction,
             'signature': signature,
@@ -67,12 +55,8 @@ class Block():
         with open('blockchain/current.wub', 'w') as f:
             json.dump(newBlock, f)
         
-        # either do this if possible
-        self.session.block = self
+        # may not work. look into
+        self.data = newBlock
 
-        # or have callback to change wumboCoin session current block
-        
-
-     
     def blockHash():
         return

@@ -1,7 +1,7 @@
 import json
 import os
-from wumboCrypt import Crypto
-from block import Block
+from .wumboCrypt import Crypto
+from common.block import Block
 #import gnupg
 
 # transaction:

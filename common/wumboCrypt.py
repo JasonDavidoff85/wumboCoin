@@ -8,8 +8,8 @@ class Crypto:
         self.key = None
         self.hasKey = False
 
-    def createKeyPair(self, keyname = 'wumboKey'):
-        self.key = RSA.generate(2048)
+    def createKeyPair(self, keyname='wumboKey'):
+        self.key = RSA.generate(1024)
         try:
             with open(keyname+'.pem', 'wb') as f:
                 f.write(self.key.export_key('PEM'))
@@ -18,7 +18,7 @@ class Crypto:
             print("Uh oh")
             self.key = None
         
-    def importKey(self, keyname = 'wumboKey.pem'):
+    def importKey(self, keyname='wumboKey.pem'):
         try:
             with open(keyname, 'r') as f:
                 self.key = RSA.import_key(f.read())
@@ -59,7 +59,7 @@ class Crypto:
             return False
 
     def getPubKey(self):
-        return self.key.publickey().exportKey();
+        return self.key.publickey().exportKey()
 
         
         
