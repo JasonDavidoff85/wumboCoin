@@ -1,25 +1,28 @@
 from flask import Flask, Blueprint
 from flask_restful import Api
-from flask_login import LoginManager
+import flask_cors
 from db import db
+from auth import guard
+
+cors = flask_cors.CORS()
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///wumboUsers.db'
+app.config["JWT_ACCESS_LIFESPAN"] = {"hours": 24}
+app.config["JWT_REFRESH_LIFESPAN"] = {"days": 30}
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 db.init_app(app)
 api = Api(app)
 
-login_manager = LoginManager()
-login_manager.init_app(app)
+from models import User
 
-# from .models import User
-
-# @login_manager.user_loader
-# def load_user(user_id):
-#     return User.get(user_id)
+guard.init_app(app, User)
+cors.init_app(app)
 
 import resources.apiResouces as endpoint
 
 api.add_resource(endpoint.Version, '/api')
+api.add_resource(endpoint.Authenticate, '/api/authenticate')
 api.add_resource(endpoint.AddTransaction, '/api/addTransaction')
 api.add_resource(endpoint.ImportKey, '/api/ImportKey')
 api.add_resource(endpoint.MakeKeys, '/api/MakeKeys')

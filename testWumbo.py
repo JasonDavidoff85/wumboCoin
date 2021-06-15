@@ -44,5 +44,8 @@ import requests
 # with open('blockchain/genesis.wub', 'w') as f:
 #     json.dump(genesis, f)
 
-resp = requests.post('http://127.0.0.1:5000/api/createUser', data={'username': 'Jason2', 'password': 'hunter2'}).json()
+# resp = requests.post('http://127.0.0.1:5000/api/createUser', data={'username': 'Jason2', 'password': 'hunter2'}).json()
+resp = requests.post('http://127.0.0.1:5000/api/authenticate', data={'username': 'Jason2', 'password': 'hunter2'}).json()
+print(resp)
+resp = requests.get('http://127.0.0.1:5000/api/getBlock/1').json()
 print(resp)
