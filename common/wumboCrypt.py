@@ -4,19 +4,25 @@ from Crypto.Hash import SHA256
 from Crypto.Signature import pkcs1_15
 
 class Crypto:
-    def __init__(self):
-        self.key = None
-        self.hasKey = False
-
-    def createKeyPair(self, keyname='wumboKey'):
-        self.key = RSA.generate(1024)
-        try:
-            with open(keyname+'.pem', 'wb') as f:
-                f.write(self.key.export_key('PEM'))
-            self.hasKey = True
-        except:
-            print("Uh oh")
+    def __init__(self, privKey=None):
+        if privKey == None:
             self.key = None
+            self.hasKey = False
+        else:
+            self.key = RSA.import_key(privKey)
+            self.hasKey = True
+
+    def createKey(self):
+        self.key = RSA.generate(1024)
+        self.hasKey = True
+        return self.key.export_key()
+        # try:
+        #     with open(keyname+'.pem', 'wb') as f:
+        #         f.write(self.key.export_key('PEM'))
+        #     self.hasKey = True
+        # except:
+        #     print("Uh oh")
+        #     self.key = None
         
     def importKey(self, keyname='wumboKey.pem'):
         try:

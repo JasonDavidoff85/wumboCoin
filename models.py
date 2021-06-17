@@ -5,11 +5,11 @@ from flask_login import UserMixin
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
-    passHash = db.Column(db.String(64), nullable=False)
-    pubKey = db.Column(db.String(64))
     balance = db.Column(db.Integer, nullable=False)
     roles = db.Column(db.Text)
     is_active = db.Column(db.Boolean, default=True, server_default="true")
+    privKey = db.Column(db.String(64))
+    passHash = db.Column(db.String(64), nullable=False)
 
     @property
     def identity(self):

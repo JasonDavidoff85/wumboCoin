@@ -29,14 +29,17 @@ class Block():
         return random.choice(chance)
 
 
-    def addTransaction(self, transaction, pubKey):
-        signature = self.session.crypto.sign(self.height + str(transaction))
+    def addTransaction(self, transaction):
+        toBeSigned = str({self.height: transaction})
+        signature = self.session.crypto.sign(toBeSigned)
         self.data['transactions'][self.height] = {
             'transaction': transaction,
-            'signature': signature,
-            'key': pubKey.hex()
+            'signature': signature.hex()
         }
+        with open('blockchain/current.wub', 'w') as f:
+            json.dump(self.data, f)
         self.height += 1
+        return self.data['transactions'][self.height-1]
 
     
     def createNextBlock(self):

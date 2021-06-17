@@ -24,9 +24,7 @@ import resources.apiResouces as endpoint
 api.add_resource(endpoint.Version, '/api')
 api.add_resource(endpoint.Authenticate, '/api/authenticate')
 api.add_resource(endpoint.AddTransaction, '/api/addTransaction')
-api.add_resource(endpoint.ImportKey, '/api/ImportKey')
-api.add_resource(endpoint.MakeKeys, '/api/MakeKeys')
-api.add_resource(endpoint.GetBlock, '/api/getBlock/<int:blockNum>')
+api.add_resource(endpoint.GetBlock, '/api/getBlock/<string:blockNum>')
 api.add_resource(endpoint.GetUser, '/api/getUser/<string:username>')
 api.add_resource(endpoint.CreateUser, '/api/createUser')
 

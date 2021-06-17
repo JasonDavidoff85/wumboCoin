@@ -4,3 +4,4 @@ wumboKey.pem
 .vscode
 *.db
 wumboUsers.db
+blockchain/current.wub
