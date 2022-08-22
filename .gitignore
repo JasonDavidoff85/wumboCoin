@@ -5,3 +5,4 @@ wumboKey.pem
 *.db
 wumboUsers.db
 blockchain/current.wub
+env/

@@ -16,6 +16,8 @@ class wumbo():
 	def __init__(self, privKey=None):
 		self.crypto = Crypto(privKey)
 		# set current block
+		# TODO BUG have some sort of alias or protocol for current 
+		# incase one isnt named that
 		self.block = Block(self, 'blockchain/current.wub')
 		
 	def importKey(self, path):
