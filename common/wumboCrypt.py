@@ -2,6 +2,7 @@ from hashlib import sha256
 from Crypto.PublicKey import RSA
 from Crypto.Hash import SHA256
 from Crypto.Signature import pkcs1_15
+import json
 
 class Crypto:
     def __init__(self, privKey=None):
@@ -41,13 +42,14 @@ class Crypto:
 
     '''
     takes string of data to be signed
-    returns signed byte array
+    returns signed byte string
     '''
     def sign(self, data):
+        # TODO check is has private key
         if self.hasKey == False:
             print(self.key, "no key")
             return
-        hashObj = SHA256.new(data=bytes(data, 'utf-8'))
+        hashObj = SHA256.new(data=json.dumps(data).encode('utf-8'))
         signature = pkcs1_15.new(self.key).sign(hashObj)
         return signature
 
@@ -55,7 +57,7 @@ class Crypto:
         if self.hasKey == False:
             print(self.key, "no key")
             return
-        hashObj = SHA256.new(data=bytes(data, 'utf-8'))
+        hashObj = SHA256.new(data=json.dumps(data).encode('utf-8'))
         try:
             pkcs1_15.new(self.key).verify(hashObj, signature)
             print("Valid Signature!")

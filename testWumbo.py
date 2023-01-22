@@ -51,22 +51,62 @@ headers = CaseInsensitiveDict()
 headers["Accept"] = "application/json"
 headers["Authorization"] = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2MjM5NDEwNDUsImV4cCI6MTYyNDAyNzQ0NSwianRpIjoiZjVlYzIyMjItMTViMy00ZmUzLTk1ZTUtZjE0YmY0Njc5ZGMxIiwiaWQiOjEsInJscyI6IiIsInJmX2V4cCI6MTYyNjUzMzA0NX0.MJJ5i96ahAkuIyC9uN27VGuv04e47inu3ZWw81iEbIs"
 # resp = requests.post('http://127.0.0.1:5000/api/addTransaction', headers=headers, data={"receiver": "Hannah", "amount": "1"}).json()
-resp = requests.get('http://127.0.0.1:5000/api/getBlock/current', headers=headers).json()
+resp = requests.get('http://127.0.0.1:5000/api/getUser/wumbo', headers=headers).json()
 
-signature = resp['transactions']["3"]["signature"]
-name = resp['transactions']["3"]['transaction']["sender"]
-transaction = resp['transactions']["3"]['transaction']
-resp = requests.get('http://127.0.0.1:5000/api/getUser/{}'.format(name), headers=headers).json()
-key = resp['public key']
+# import public key
+pubkey = RSA.import_key(resp['public key'])
 
-toBeHashed = str({"0": transaction})
-print(toBeHashed)
-hashObj = SHA256.new(data=bytes(toBeHashed, 'utf-8'))
-pubKey = RSA.import_key(key)
-sig = bytearray.fromhex(signature)
+# get block
+resp = requests.get('http://127.0.0.1:5000/api/getBlock', headers=headers).json()
+print(resp)
+
+# get signature and convert to bytes
+signature = bytes.fromhex(resp['transactions']['0']['signature'])
+del resp['transactions']['0']['signature']
+
+# isolate transaction be like what is hased
+transaction = resp['transactions']
+print(transaction)
+
+# create hash of transaction
+hashObj = SHA256.new(data=json.dumps(transaction).encode('utf-8'))
+
+# verify hash with signature
 try:
-    pkcs1_15.new(pubKey).verify(hashObj, sig)
-    print("Valid Signature!")
+    pkcs1_15.new(pubkey).verify(hashObj, signature)
+    print("valid")
 except (ValueError, TypeError):
-    print("The signature is not valid")
+    print("invalid")
 
+# signature = resp['transactions']["3"]["signature"]
+# name = resp['transactions']["3"]['transaction']["sender"]
+# transaction = resp['transactions']["3"]['transaction']
+# resp = requests.get('http://127.0.0.1:5000/api/getUser/{}'.format(name), headers=headers).json()
+# key = resp['public key']
+
+
+
+# transaction = {
+#     "0": {
+#         "transaction": {
+#             "sender": "Wumbo",
+#             "receiver": "HannahJoeyPurvis",
+#             "amount": 6
+#         }
+#     }
+# }
+# ########################################
+# # this works. This is the crypto method
+# priKey = RSA.generate(1024)
+# print(transaction)
+# hashObj = SHA256.new(data=json.dumps(transaction).encode('utf-8'))
+# signature = pkcs1_15.new(priKey).sign(hashObj)
+
+# pubKey = priKey.public_key()
+
+# try:
+#     pkcs1_15.new(pubKey).verify(hashObj, signature)
+#     print("valid")
+# except (ValueError, TypeError):
+#     print("invalid")
+# ########################################

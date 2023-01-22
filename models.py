@@ -36,3 +36,30 @@ class User(UserMixin, db.Model):
     
     def is_valid(self):
         return self.is_active
+    
+class Blockchain(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    wub_file = db.Column(db.String(80), unique=True, nullable=False)
+    current = db.Column(db.Boolean, default=True, server_default="true")
+    prevBlockHash = db.Column(db.String(256))
+    blockHash = db.Column(db.String(256))
+
+    @property
+    def identity(self):
+        return self.id
+
+    @classmethod
+    def lookup(cls, id):
+        return cls.query.filter_by(id=id).one_or_none()
+    
+    @classmethod
+    def get_current(cls):
+        return cls.query.filter_by(current=True).one_or_none()
+
+    @classmethod
+    def identify(cls, id):
+        return cls.query.get(id)
+    
+    def is_current(self):
+        return self.current
+

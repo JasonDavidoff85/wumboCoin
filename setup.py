@@ -1,4 +1,6 @@
 import json
+import sqlite3
+
 
 with open('blockchain/current.wub', 'x') as f:
     json.dump(
@@ -13,6 +15,9 @@ with open('blockchain/current.wub', 'x') as f:
             "transactions": {}
         },
         f)
+    
+con = sqlite3.connect("wumboUsers.db")
+cur = con.cursor()
 
 # start new block
 

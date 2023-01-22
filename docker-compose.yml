@@ -1,0 +1,10 @@
+version: "0.1"
+services:
+  wumbocoin:
+    build: .
+    ports:
+      - "3000:5000"
+    volumes:
+      - ./wumbo.db:/app/wumbo.db
+      - ./blockchain:/app/blockchain
+      - ./testWumbo.py:/app/testWumbo.py

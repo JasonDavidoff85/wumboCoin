@@ -1,43 +1,12 @@
 {
     "header": {
         "blockID": 0,
-        "creator": "jdavidoff",
-        "blockReward": 6,
-        "proofOfWork": 0,
-        "rewardReciever": "jdavidoff"
+        "creator": "wumbo",
+        "blockReward": 0,
+        "proofOfWork": 12917056,
+        "rewardReciever": "wumbo"
     },
     "transactions": {
-        "0": {
-            "transaction": {
-                "sender": "Wumbo",
-                "receiver": "HannahJoeyPurvis",
-                "amount": 6
-            },
-            "signature": "8a4c0102e894af5c4994e482fb11f951953aa8264e71cafd3c5c66caf96f925a"
-        },
-        "1": {
-            "transaction": {
-                "sender": "Wumbo",
-                "receiver": "Theydra",
-                "amount": 5
-            },
-            "signature": "9ff4f633b72f43131563d7e2304429fbc28b4eb7f67da0ca7a429ea31e707edc"
-        },
-        "2": {
-            "transaction": {
-                "sender": "Wumbo",
-                "receiver": "JohnPaolaEly",
-                "amount": 4
-            },
-            "signature": "bdb59470657e41f53a493fac242a03a95795630a69f95d0959df561b56994c53"
-        },
-        "3": {
-            "transaction": {
-                "sender": "Wumbo",
-                "receiver": "NickD",
-                "amount": 2
-            },
-            "signature": "9750416c28b5b99dfd68da403fd706b933ca74fec79b9aa722bb8cc6a212df97"
-        }
+        
     }
 }

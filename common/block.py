@@ -8,6 +8,7 @@ class Block():
         self.data = {}
         self.session = session
         if file != None and os.path.exists(file): # block already created
+            self.file = file
             with open(file) as f:
                 self.data = json.load(f)
         self.height = len(self.data['transactions'])
@@ -30,13 +31,13 @@ class Block():
 
 
     def addTransaction(self, transaction):
-        toBeSigned = str({self.height: transaction})
+        toBeSigned = {self.height: {"transaction": transaction}}
         signature = self.session.crypto.sign(toBeSigned)
         self.data['transactions'][self.height] = {
             'transaction': transaction,
             'signature': signature.hex()
         }
-        with open('blockchain/current.wub', 'w') as f:
+        with open(self.file, 'w') as f:
             json.dump(self.data, f)
         self.height += 1
         return self.data['transactions'][self.height-1]
